@@ -86,7 +86,7 @@ for k in range(n_epochs):
     loss_test = models.test(model, dataloader_test, loss_fn)
     time_end = time.time()
     loss_test_history.append(loss_train)
-    print(f'test loss: {loss_test:.3f} ({time_end-time_start:.1f}s)', end=', ')
+    print(f'test loss: {loss_test:.3f} ({time_end-time_start:.1f}s)')
 
     if (k+1) % 5 == 0:
     # 精度を計算する
