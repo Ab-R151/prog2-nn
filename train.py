@@ -124,9 +124,3 @@ plt.ylabel('loss')
 plt.legend()
 plt.grid()
 plt.show()
-
-
-print(f'a {acc_train_history}')
-print(f'b {acc_test_history}')
-print(f'c {loss_train_history}')
-print(f'd {loss_test_history}')
