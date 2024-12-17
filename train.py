@@ -71,7 +71,7 @@ learning_rate = 0.003
 optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
 # criterion (規準) とも呼ぶ
 
-n_epochs = 5
+n_epochs = 20
 
 loss_train_history = []
 loss_test_history = []
@@ -91,7 +91,7 @@ for k in range(n_epochs):
     time_start = time.time()
     loss_test = models.test(model, dataloader_test, loss_fn, device=device)
     time_end = time.time()
-    loss_test_history.append(loss_train)
+    loss_test_history.append(loss_test)
     print(f'test loss: {loss_test:.3f} ({time_end-time_start:.1f}s)')
 
     if (k+1) % 5 == 0:
@@ -125,4 +125,8 @@ plt.legend()
 plt.grid()
 plt.show()
 
-print(loss_test_history)
+
+print(f'a {acc_train_history}')
+print(f'b {acc_test_history}')
+print(f'c {loss_train_history}')
+print(f'd {loss_test_history}')
