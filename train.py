@@ -11,7 +11,7 @@ import torchvision.transforms.v2 as transforms
 import models
 
 
-# 
+# データセットの前処理関数
 ds_transform = transforms.Compose([
     transforms.ToImage(),
     transforms.ToDtype(torch.float32, scale=True)
