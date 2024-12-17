@@ -11,6 +11,10 @@ import torchvision.transforms.v2 as transforms
 import models
 
 
+# GPU があれば 'cuda' なければ 'cpu' というデバイス名を設定
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
+
 # データセットの前処理関数
 ds_transform = transforms.Compose([
     transforms.ToImage(),
@@ -54,9 +58,9 @@ for image_batch, label_butch in dataloader_train:
 model = models.MyModel()
 
 # 精度を計算する
-acc_train = models.test_accuracy(model, dataloader_train)
+acc_train = models.test_accuracy(model, dataloader_train, device=device)
 print(f'train accuracy: {acc_train*100:.3f}%')
-acc_test = models.test_accuracy(model, dataloader_test)
+acc_test = models.test_accuracy(model, dataloader_test, device=device)
 print(f'test accuracy: {acc_test*100:.3f}%')
 
 # ロス関数の選択
@@ -79,13 +83,13 @@ for k in range(n_epochs):
 
     # 1 epoch の学習
     time_start = time.time()
-    loss_train = models.train(model, dataloader_train, loss_fn, optimizer)
+    loss_train = models.train(model, dataloader_train, loss_fn, optimizer, device=device)
     time_end = time.time()
     loss_train_history.append(loss_train)
     print(f'train loss: {loss_train:.3f} ({time_end-time_start:.1f}s)', end=', ')
 
     time_start = time.time()
-    loss_test = models.test(model, dataloader_test, loss_fn)
+    loss_test = models.test(model, dataloader_test, loss_fn, device=device)
     time_end = time.time()
     loss_test_history.append(loss_train)
     print(f'test loss: {loss_test:.3f} ({time_end-time_start:.1f}s)')
@@ -93,13 +97,13 @@ for k in range(n_epochs):
     if (k+1) % 5 == 0:
     # 精度を計算する
         time_start = time.time()
-        acc_train = models.test_accuracy(model, dataloader_train)
+        acc_train = models.test_accuracy(model, dataloader_train, device=device)
         time_end = time.time()
         acc_train_history.append(acc_train)
         print(f'train accuracy: {acc_train*100:.3f} ({time_end-time_start:.1f}s)', end=', ')
 
         time_start = time.time()
-        acc_test = models.test_accuracy(model, dataloader_test)
+        acc_test = models.test_accuracy(model, dataloader_test, device=device)
         time_end = time.time()
         acc_test_history.append(acc_test)
         print(f'test accuracy: {acc_test*100:.3f} ({time_end-time_start:.1f}s)')
@@ -120,3 +124,5 @@ plt.ylabel('loss')
 plt.legend()
 plt.grid()
 plt.show()
+
+print(loss_test_history)
